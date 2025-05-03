@@ -1,7 +1,5 @@
 # Simple WMS
 
----
-
 ## Описание проекта
 Проект представляет собой простейший WMS (Warehouse Management System) для управления складом маркетплейса, написанный с использованием .NET 9.0 и ASP.NET Core Web API, PostgreSQL.
 
