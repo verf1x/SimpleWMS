@@ -14,9 +14,7 @@ public class Container
 
     public IReadOnlyCollection<Instance> Instances => _instances;
 
-    private Container()
-    {
-    }
+    private Container() { }
 
     public static Container Create(string containerBarcode, string cargoName)
     {
