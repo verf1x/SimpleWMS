@@ -37,7 +37,6 @@ public class CargoController : ControllerBase
         [FromRoute] Guid id,
         [FromBody] AddInstanceToCargoRequest request)
     {
-        // Здесь мы подставляем id из пути в команду
         var command = new AddInstanceToCargoCommand(id, request.InstanceBarcode);
         await _mediator.Send(command);
         return NoContent();
@@ -47,6 +46,13 @@ public class CargoController : ControllerBase
     public async Task<IActionResult> Close(Guid id)
     {
         await _mediator.Send(new CloseCargoCommand(id));
+        return NoContent();
+    }
+    
+    [HttpPost("{id:guid}/add-crate")]
+    public async Task<IActionResult> AddCrate(Guid id, [FromBody] AddCrateToCargoRequest req)
+    {
+        await _mediator.Send(new AddCrateToCargoCommand(id, req.CrateId));
         return NoContent();
     }
 }
