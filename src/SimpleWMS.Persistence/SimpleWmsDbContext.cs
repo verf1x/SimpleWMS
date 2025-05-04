@@ -23,17 +23,24 @@ public class SimpleWmsDbContext : DbContext
             .HasConversion<int>();
         
         modelBuilder.Entity<User>()
-            .HasIndex(u => u.UserName).IsUnique();
+            .HasIndex(u => u.UserName)
+            .IsUnique();
         
-        modelBuilder.Entity<Cargo>().Property(c => c.Status).HasConversion<int>();
+        modelBuilder.Entity<Cargo>()
+            .Property(c => c.Status)
+            .HasConversion<int>();
         
-        modelBuilder.Entity<Crate>().Property(c => c.Status).HasConversion<int>();
+        modelBuilder.Entity<Crate>()
+            .Property(c => c.Status)
+            .HasConversion<int>();
         
         modelBuilder.Entity<Crate>()
             .Property(c => c.LocationCode)
             .HasConversion(v => v.Value, v => Domain.ValueObjects.CrateLocationCode.Parse(v));
         
-        modelBuilder.Entity<Transportation>().Property(t => t.Status).HasConversion<int>();
+        modelBuilder.Entity<Transportation>()
+            .Property(t => t.Status)
+            .HasConversion<int>();
         
         modelBuilder.Entity<MobileContainer>()
             .Property(m => m.Number)

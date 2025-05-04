@@ -30,4 +30,11 @@ public readonly struct MobileContainerNumber
     }
 
     public override string ToString() => Value;
+    
+    public bool Equals(MobileContainerNumber other) => Value == other.Value;
+    public override bool Equals(object? obj) => obj is MobileContainerNumber other && Equals(other);
+    public override int GetHashCode() => Value.GetHashCode();
+
+    public static bool operator ==(MobileContainerNumber left, MobileContainerNumber right) => left.Equals(right);
+    public static bool operator !=(MobileContainerNumber left, MobileContainerNumber right) => !left.Equals(right);
 }

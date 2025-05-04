@@ -1,6 +1,5 @@
+using MediatR;
+
 namespace SimpleWMS.Application.Commands;
 
-public class ReceiveCargoCommand
-{
-    
-}
+public record ReceiveCargoCommand(string CargoBarcode) : IRequest;

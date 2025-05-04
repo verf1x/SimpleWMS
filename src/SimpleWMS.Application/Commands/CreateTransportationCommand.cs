@@ -1,6 +1,11 @@
+using MediatR;
+
 namespace SimpleWMS.Application.Commands;
 
-public class CreateTransportationCommand
-{
-    
-}
+public record CreateTransportationCommand(
+    long TransportationNumber,
+    string RouteA,
+    string RouteB,
+    string VehicleData,
+    DateOnly ShipmentDate
+) : IRequest<Guid>;

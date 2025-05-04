@@ -1,6 +1,5 @@
+using MediatR;
+
 namespace SimpleWMS.Application.Commands;
 
-public class AddInstanceToCargoCommand
-{
-    
-}
+public record AddInstanceToCargoCommand(Guid CargoId, string InstanceBarcode) : IRequest;

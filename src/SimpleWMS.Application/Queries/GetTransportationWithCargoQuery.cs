@@ -1,6 +1,6 @@
+using MediatR;
+using SimpleWMS.Application.Dtos;
+
 namespace SimpleWMS.Application.Queries;
 
-public class GetTransportationWithCargoQuery
-{
-    
-}
+public record GetTransportationWithCargoQuery(Guid TransportationId) : IRequest<TransportationWithCargoDto>;

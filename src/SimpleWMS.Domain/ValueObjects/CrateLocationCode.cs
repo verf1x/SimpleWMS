@@ -29,4 +29,11 @@ public readonly struct CrateLocationCode
     }
 
     public override string ToString() => Value;
+    
+    public bool Equals(CrateLocationCode other) => Value == other.Value;
+    public override bool Equals(object? obj) => obj is CrateLocationCode other && Equals(other);
+    public override int GetHashCode() => Value.GetHashCode();
+
+    public static bool operator ==(CrateLocationCode left, CrateLocationCode right) => left.Equals(right);
+    public static bool operator !=(CrateLocationCode left, CrateLocationCode right) => !left.Equals(right);
 }

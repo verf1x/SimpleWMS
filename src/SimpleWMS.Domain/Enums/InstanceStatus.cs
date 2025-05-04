@@ -4,5 +4,6 @@ public enum InstanceStatus
 {
     Expected = 0,
     ReceivedReadyToPlace = 1,
-    Placed = 2
+    AddedToCargo = 2,
+    Placed = 3
 }

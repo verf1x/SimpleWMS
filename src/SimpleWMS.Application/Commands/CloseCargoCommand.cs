@@ -1,6 +1,5 @@
+using MediatR;
+
 namespace SimpleWMS.Application.Commands;
 
-public class CloseCargoCommand
-{
-    
-}
+public record CloseCargoCommand(Guid CargoId) : IRequest;

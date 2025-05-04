@@ -1,3 +1,5 @@
+using MediatR;
+
 namespace SimpleWMS.Application.Commands;
 
-public record PlaceInstanceToMCCommand();
+public record PlaceInstanceToMCCommand(string InstanceBarcode, string McNumber) : IRequest;

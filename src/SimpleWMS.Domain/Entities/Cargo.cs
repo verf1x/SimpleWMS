@@ -31,4 +31,20 @@ public class Cargo
             throw new InvalidOperationException("Only collected cargo can be shipped");
         Status = CargoStatus.Shipped;
     }
+    
+    public void AssignToTransportation(Guid transportationId)
+    {
+        if (Status != CargoStatus.Collected)
+            throw new InvalidOperationException("Cargo must be collected before assigning to a transportation.");
+
+        TransportationId = transportationId;
+    }
+    
+    public void MarkReceived()
+    {
+        if (Status != CargoStatus.Collected)
+            throw new InvalidOperationException(
+                "Cargo must be in Collected state before receiving.");
+        Status = CargoStatus.Received;
+    }
 }
