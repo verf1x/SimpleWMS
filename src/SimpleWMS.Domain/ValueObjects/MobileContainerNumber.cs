@@ -9,7 +9,9 @@ public readonly struct MobileContainerNumber
     private MobileContainerNumber(string value) => Value = value;
 
     // Формат XX-YY, XX 1-60, YY 1-10
-    private static readonly Regex _regex = new("^(?:[1-9]|[1-5][0-9]|60)-(?:[1-9]|10)$", RegexOptions.Compiled);
+    private static readonly Regex _regex = new(
+        "^(?:[1-9]|[1-5][0-9]|60)-(?:0?[1-9]|10)$",
+        RegexOptions.Compiled);
 
     public static MobileContainerNumber Parse(string input)
     {

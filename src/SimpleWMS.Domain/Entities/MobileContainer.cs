@@ -5,10 +5,10 @@ namespace SimpleWMS.Domain.Entities;
 public class MobileContainer
 {
     public Guid Id { get; set; }
-    public MobileContainerNumber Number { get; private set; }
+    public MobileContainerNumber Number { get; set; }
     public bool IsClosed { get; private set; }
 
-    private MobileContainer() { }
+    public MobileContainer() { }
 
     public MobileContainer(string number)
     {

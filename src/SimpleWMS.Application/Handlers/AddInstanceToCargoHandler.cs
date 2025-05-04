@@ -21,8 +21,22 @@ public class AddInstanceToCargoHandler : IRequestHandler<AddInstanceToCargoComma
                            .SingleOrDefaultAsync(i => i.ShippingNumber == cmd.InstanceBarcode, ct)
                        ?? throw new KeyNotFoundException($"Instance {cmd.InstanceBarcode} not found");
 
-        if (instance.Status != InstanceStatus.Expected)
-            throw new InvalidOperationException("Only Expected instances can be added to a forming cargo.");
+        if (instance.Status is not (InstanceStatus.Expected or InstanceStatus.ReceivedReadyToPlace
+            or InstanceStatus.Placed))
+            throw new InvalidOperationException(
+                $"Instance must be Expected, ReadyToPlace or Placed, but was {instance.Status}");
+
+        if (instance.AssignedMobileContainerId is not null)
+        {
+            instance.AssignedMobileContainerId = null;
+        }
+
+        if (instance.AssignedCrateId is not null)
+        {
+            var crate = await _dbContext.Crates.FindAsync(instance.AssignedCrateId, ct);
+            crate?.InstanceIds.Remove(instance.Id);
+            // instance.AssignedCrateId = null;
+        }
 
         cargo.AddInstance(instance.Id);
         instance.AssignToCargo(cargo.Id);
