@@ -1,6 +1,5 @@
+using MediatR;
+
 namespace SimpleWMS.Application.Commands;
 
-public class MoveCrateToMcCommand
-{
-    
-}
+public record MoveCrateToMcCommand(Guid CrateId, string McNumber) : IRequest;

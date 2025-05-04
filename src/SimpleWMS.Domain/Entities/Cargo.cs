@@ -10,12 +10,20 @@ public class Cargo
     public CargoStatus Status { get; private set; } = CargoStatus.Forming;
     public Guid? TransportationId { get; private set; }
     public List<Guid> InstanceIds { get; } = [];
+    public List<Guid> CrateIds    { get; } = [];
 
     public void AddInstance(Guid instanceId)
     {
         if (Status != CargoStatus.Forming)
             throw new InvalidOperationException("Cannot add instance to non-forming cargo");
         InstanceIds.Add(instanceId);
+    }
+    
+    public void AddCrate(Guid crateId)
+    {
+        if (Status != CargoStatus.Forming)
+            throw new InvalidOperationException("Cargo must be in Forming state.");
+        CrateIds.Add(crateId);
     }
 
     public void Close()

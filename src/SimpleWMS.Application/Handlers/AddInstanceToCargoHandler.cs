@@ -34,7 +34,7 @@ public class AddInstanceToCargoHandler : IRequestHandler<AddInstanceToCargoComma
         if (instance.AssignedCrateId is not null)
         {
             var crate = await _dbContext.Crates.FindAsync(instance.AssignedCrateId, ct);
-            crate?.InstanceIds.Remove(instance.Id);
+            // crate?.InstanceIds.Remove(instance.Id);
             // instance.AssignedCrateId = null;
         }
 

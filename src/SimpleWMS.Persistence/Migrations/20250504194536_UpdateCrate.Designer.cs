@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimpleWMS.Persistence;
 
@@ -11,9 +12,11 @@ using SimpleWMS.Persistence;
 namespace SimpleWMS.Persistemce.Migrations
 {
     [DbContext(typeof(SimpleWmsDbContext))]
-    partial class SimpleWmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250504194536_UpdateCrate")]
+    partial class UpdateCrate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,10 +39,6 @@ namespace SimpleWMS.Persistemce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CrateIds")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -55,9 +54,6 @@ namespace SimpleWMS.Persistemce.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CargoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LocationCode")

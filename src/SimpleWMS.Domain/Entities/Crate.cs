@@ -7,10 +7,12 @@ public class Crate
 {
     public Guid Id { get; set; }
     public CrateLocationCode LocationCode { get; private set; }
-    public CrateStatus Status { get; private set; } = CrateStatus.Opened;
-    public List<Guid> InstanceIds { get; } = new();
+    public CrateStatus Status { get; set; } = CrateStatus.Opened;
+    public Guid? MobileContainerId { get; private set; }
+    
+    public Guid? CargoId { get; private set; }
 
-    private Crate() { }
+    public Crate() { }
 
     public Crate(string locationCode)
     {
@@ -18,17 +20,32 @@ public class Crate
         Status = CrateStatus.Opened;
     }
 
-    public void AddInstance(Guid instanceId)
-    {
-        if (Status != CrateStatus.Opened)
-            throw new InvalidOperationException("Cannot add to closed crate");
-        InstanceIds.Add(instanceId);
-    }
-
+    public void AssignLocation(string code)
+        => LocationCode = CrateLocationCode.Parse(code);
+    
     public void Close()
     {
         if (Status != CrateStatus.Opened)
             throw new InvalidOperationException("Crate already closed");
         Status = CrateStatus.Collected;
+    }
+    
+    public void MoveToMobileContainer(Guid mcId)
+    {
+        if (Status != CrateStatus.Collected)
+            throw new InvalidOperationException("Crate must be collected before move.");
+        MobileContainerId = mcId;
+    }
+    
+    public void AssignToCargo(Guid cargoId)
+    {
+        if (Status != CrateStatus.Collected)
+            throw new InvalidOperationException("Crate must be collected before assigning to cargo.");
+
+        if (CargoId is not null)
+            throw new InvalidOperationException("Crate is already assigned to a cargo.");
+        
+        MobileContainerId = null;
+        CargoId = cargoId;
     }
 }

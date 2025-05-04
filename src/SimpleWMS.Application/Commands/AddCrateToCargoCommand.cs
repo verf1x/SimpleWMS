@@ -1,6 +1,5 @@
+using MediatR;
+
 namespace SimpleWMS.Application.Commands;
 
-public class AddCrateToCargoCommand
-{
-    
-}
+public record AddCrateToCargoCommand(Guid CargoId, Guid CrateId) : IRequest;

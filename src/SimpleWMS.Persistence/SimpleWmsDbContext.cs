@@ -45,5 +45,13 @@ public class SimpleWmsDbContext : DbContext
         modelBuilder.Entity<MobileContainer>()
             .Property(m => m.Number)
             .HasConversion(v => v.Value, v => Domain.ValueObjects.MobileContainerNumber.Parse(v));
+        
+        modelBuilder.Entity<Cargo>()
+            .Property(c => c.CrateIds)
+            .HasConversion(
+                v => string.Join(',', v),
+                s => s.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(Guid.Parse)
+                    .ToList());
     }
 }

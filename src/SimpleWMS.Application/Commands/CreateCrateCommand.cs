@@ -1,6 +1,5 @@
+using MediatR;
+
 namespace SimpleWMS.Application.Commands;
 
-public class CreateCrateCommand
-{
-    
-}
+public record CreateCrateCommand(string LocationCode) : IRequest<Guid>;
