@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\SimpleWMS.Domain\SimpleWMS.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

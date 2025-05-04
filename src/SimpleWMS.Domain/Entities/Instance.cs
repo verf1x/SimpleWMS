@@ -1,6 +1,6 @@
 using SimpleWMS.Domain.Enums;
 
-namespace Wms.Domain.Entities;
+namespace SimpleWMS.Domain.Entities;
 
 public class Instance
 {

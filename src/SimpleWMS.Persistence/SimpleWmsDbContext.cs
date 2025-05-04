@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Wms.Domain.Entities;
+using SimpleWMS.Domain.Entities;
 
 namespace SimpleWMS.Persistence;
 
@@ -8,6 +8,7 @@ public class SimpleWmsDbContext : DbContext
     public SimpleWmsDbContext(DbContextOptions<SimpleWmsDbContext> options) : base(options) { }
 
     public DbSet<Instance> Instances => Set<Instance>();
+    public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -16,5 +17,8 @@ public class SimpleWmsDbContext : DbContext
         modelBuilder.Entity<Instance>()
             .Property(i => i.Status)
             .HasConversion<int>();
+        
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.UserName).IsUnique();
     }
 }

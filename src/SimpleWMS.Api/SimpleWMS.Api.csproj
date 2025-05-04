@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.UI" Version="9.0.0" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
@@ -23,11 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\Labels\Shipping\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\SimpleWMS.Application\SimpleWMS.Application.csproj" />
+    <ProjectReference Include="..\SimpleWMS.Infrastructure\SimpleWMS.Infrastructure.csproj" />
     <ProjectReference Include="..\SimpleWMS.Persistence\SimpleWMS.Persistence.csproj" />
   </ItemGroup>
 
