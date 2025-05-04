@@ -1,73 +1,30 @@
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
-using SimpleWMS.Infrastructure;
+using Microsoft.OpenApi.Models;
+using SimpleWMS.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog((ctx, lc) =>
-    lc.ReadFrom.Configuration(ctx.Configuration));
+builder.Services.AddDbContext<SimpleWmsDbContext>(opt =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-var configuration = builder.Configuration;
+// 2. Controllers (none yet, but we register for later)
+builder.Services.AddControllers();
 
-builder.Services.AddDbContext<SimpleWmsDbContext>(options =>
-    options.UseSqlServer(
-        configuration.GetConnectionString("DefaultConnection"),
-        sqlOptions =>
-        {
-            sqlOptions.MigrationsAssembly("SimpleWMS.Infrastructure");
-            sqlOptions.EnableRetryOnFailure(
-                maxRetryCount: 5,
-                maxRetryDelay: TimeSpan.FromSeconds(10),
-                errorNumbersToAdd: null);
-        }));
-
-builder.Services
-    .AddHealthChecks()
-    .AddDbContextCheck<SimpleWmsDbContext>(name: "sqlserver");
-
-
-builder.Services.AddMediatR(typeof(Program).Assembly);
-
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
-    {
-        options.RequireHttpsMetadata = false;
-        options.TokenValidationParameters = new()
-        {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = false,
-            ValidateIssuerSigningKey = false
-        };
-    });
-
-builder.Services.AddAuthorization(options =>
+// 3. Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
 {
-    options.AddPolicy("AnyUser", policy =>
-        policy.RequireAuthenticatedUser());
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "WMS API", Version = "v1" });
+    // (JWT will be added on Day2)
 });
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
-
-app.UseSerilogRequestLogging();
-
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-app.MapHealthChecks("/healthz");
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WMS API v1"));
 }
 
+app.MapControllers();
 app.Run();

@@ -1,26 +1,12 @@
-namespace SimpleWMS.Domain.Entities;
+using SimpleWMS.Domain.Enums;
+
+namespace Wms.Domain.Entities;
 
 public class Instance
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
-
-    public string PostingBarcode { get; private set; } = string.Empty;
-    
+    public Guid Id { get; set; }
+    public required string ShippingNumber { get; set; } = string.Empty;
     public InstanceStatus Status { get; private set; } = InstanceStatus.Expected;
     
-    private Instance() { }
-
-    public static Instance Create(string postingBarcode)
-    {
-        return new()
-        {
-            PostingBarcode = postingBarcode
-        };
-    } 
-}
-
-public enum InstanceStatus
-{
-    Expected,
-    Picked
+    public void MarkReceived() => Status = InstanceStatus.ReceivedReadyToPlace;
 }
