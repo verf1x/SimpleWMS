@@ -1,7 +1,12 @@
 using System.Text;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SimpleWMS.Api.Middleware;
 using SimpleWMS.Application.Abstractions;
+using SimpleWMS.Application.Validators;
 using SimpleWMS.Infrastructure.Auth;
 using SimpleWMS.Persistence;
 
@@ -10,10 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SimpleWmsDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 2. Controllers (none yet, but we register for later)
 builder.Services.AddControllers();
 
-// 3. Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", opt =>
@@ -32,6 +35,9 @@ builder.Services.AddAuthentication("Bearer")
 builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddValidatorsFromAssembly(typeof(CreateCargoCommandValidator).Assembly);
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddMediatR(typeof(SimpleWMS.Application.Commands.CreateCargoCommand).Assembly);
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -62,6 +68,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<ValidationExceptionMiddleware>();
 
 app.MapControllers();
 app.Run();

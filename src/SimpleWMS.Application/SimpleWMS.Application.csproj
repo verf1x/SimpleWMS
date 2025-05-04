@@ -8,6 +8,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\SimpleWMS.Domain\SimpleWMS.Domain.csproj" />
+      <ProjectReference Include="..\SimpleWMS.Persistence\SimpleWMS.Persistence.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.5.1" />
+      <PackageReference Include="MediatR" Version="11.0.0" />
+      <PackageReference Include="MediatR.Contracts" Version="1.0.1" />
     </ItemGroup>
 
 </Project>
