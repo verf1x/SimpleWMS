@@ -21,6 +21,7 @@ public class SimpleWmsDbContext : DbContext
             config.OwnsMany(x => x.Instances, inst =>
             {
                 inst.WithOwner().HasForeignKey("ContainerId");
+                inst.ToTable("Instances"); 
                 inst.HasKey("Id");
                 inst.HasIndex("PostingBarcode").IsUnique();
             });
