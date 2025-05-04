@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SimpleWMS.Api.Models;
 using SimpleWMS.Application.Commands;
 
 namespace SimpleWMS.Api.Controllers;
@@ -29,5 +30,23 @@ public class CargoController : ControllerBase
     public async Task<IActionResult> GetById([FromRoute] Guid id)
     {
         return Ok();
+    }
+    
+    [HttpPost("{id:guid}/add-instance")]
+    public async Task<IActionResult> AddInstance(
+        [FromRoute] Guid id,
+        [FromBody] AddInstanceToCargoRequest request)
+    {
+        // Здесь мы подставляем id из пути в команду
+        var command = new AddInstanceToCargoCommand(id, request.InstanceBarcode);
+        await _mediator.Send(command);
+        return NoContent();
+    }
+    
+    [HttpPost("{id:guid}/close")]
+    public async Task<IActionResult> Close(Guid id)
+    {
+        await _mediator.Send(new CloseCargoCommand(id));
+        return NoContent();
     }
 }
