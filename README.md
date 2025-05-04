@@ -29,6 +29,7 @@
   }
 ]
 ```
+![img.png](img.png)
 ```json
 [
   {
@@ -37,14 +38,16 @@
   }
 ]
 ```
+![img_1.png](img_1.png)
 - Создадим груз, который будет содержать эти товары:
 `POST /api/Cargo`
 ```json
 {
-  "cargoName": "5898D3AF-CD82-47C8-BF3D-AA7CA7E9DB3D",
-  "cargoBarcode": "CARGO-001"
+  "cargoName": "Pallet A",
+  "cargoBarcode": "CARGO-002"
 }
 ```
+![img_2.png](img_2.png)
 - Добавим в груз товары:
 `POST /api/Cargo/{id}/add-instance, в качестве id передаем Guid груза`
 ```json
@@ -52,14 +55,16 @@
   "instanceBarcode": "SHIP-00001234-0001"
 }
 ```
+![img_3.png](img_3.png)
 ```json
 {
   "instanceBarcode": "SHIP-00001234-0002"
 }
 ```
+![img_4.png](img_4.png)
 - Закроем груз:
 `POST /api/Cargo/{id}/close`
-
+![img_5.png](img_5.png)
 
 - Создадим машину с перевозкой, которая будет содержать груз:
 `POST /api/Transportation`
@@ -72,8 +77,10 @@
   "shipmentDate": "2025-05-04"
 }
 ```
+![img_6.png](img_6.png)
 - Привяжем груз к машине с перевозкой:
 `POST /api/transportation/{transportationId}/cargo/{cargoId}`
+- ![img_7.png](img_7.png)
 
 
 - Примем созданную где-то перевозку на наш склад:
@@ -83,6 +90,7 @@
   "transportationId": "25076f12-e454-42cd-a3ef-cac30854d732"
 }
 ```
+![img_8.png](img_8.png)
 
 - Теперь примем груз из перевозки:
 `POST /api/Receiving/cargo`
@@ -91,6 +99,7 @@
   "cargoBarcode": "CARGO-002"
 }
 ```
+![img_9.png](img_9.png)
 - Примем товар из груза отсканировав стол приемки и ШК товара:
 `POST /api/Receiving/instance`
 ```json
@@ -99,6 +108,7 @@
   "tableQr": "TABLE-01"
 }
 ```
+![img_10.png](img_10.png)
 - Разместим товар в зоне хранения:
 - Для этого создадим мобильный контейнер
 `POST /api/MobileContainer`
@@ -107,6 +117,8 @@
   "number": "1-1"
 }
 ```
+![img_11.png](img_11.png)
+
 - Поместим сам товар в него
 `POST /api/Placement/mc`
 ```json
@@ -115,15 +127,17 @@
   "mcNumber": "1-1"
 }
 ```
+![img_12.png](img_12.png)
 - Теперь допустим мы разместили множество товаров на нашем складе, нам нужно их отгрузить.
 - Для этого создадим груз нашего склада
 `POST /api/Cargo`
 ```json
 {
-  "cargoName": "Pallet C",
+  "cargoName": "Pallet B",
   "cargoBarcode": "CARGO-003"
 }
 ```
+![img_13.png](img_13.png)
 - Добавим в груз товар:
 `POST /api/Cargo/{id}/add-instance`
 ```json
@@ -131,11 +145,14 @@
   "instanceBarcode": "SHIP-00001234-0001"
 }
 ```
+![img_14.png](img_14.png)
 - Закрываем груз:
 `POST /api/Cargo/{id}/close`
+- ![img_15.png](img_15.png)
 
 - Отправляем груз на отгрузку:
 `POST /api/Shipping/cargo/{cargoId}`
+- ![img_16.png](img_16.png)
 
 - У нас остался непринятый товар, примем его:
   `POST /api/Receiving/instance`
@@ -145,6 +162,7 @@
   "tableQr": "TABLE-01"
 }
 ```
+![img_17.png](img_17.png)
 - Разместим его в зоне хранения уже в тарный ящик:
 - Для этого создадим его
 `POST /api/Crate`
@@ -153,6 +171,7 @@
   "locationCode": "A-1-3_2"
 }
 ```
+![img_18.png](img_18.png)
 - Поместим товар в него
 `POST /api/Placement/crate`
 ```json
@@ -161,10 +180,11 @@
   "crateCode": "A-1-3_2"
 }
 ```
+![img_19.png](img_19.png)
 - Теперь допустим мы разместили множество товаров в тарный ящик, закроем его и разместим в мобильный контейнер.
 - Закрываем тарный ящик:
 `POST /api/Crate/close/{id}`
-
+![img_20.png](img_20.png)
 - Размещаем в мобильный контейнер:
 `POST /api/Crate/{id}/move-to-mc`
 ```json
@@ -172,7 +192,7 @@
   "mcNumber": "1-1"
 }
 ```
-
+![img_21.png](img_21.png)
 - Создадим груз из нашего тарного ящика
 - Для этого создадим груз
 `POST /api/Cargo`
@@ -182,19 +202,22 @@
   "cargoBarcode": "CARGO-008"
 }
 ```
+![img_22.png](img_22.png)
 - Поместим в него тарный ящик
 `POST /api/Cargo/{id}/add-crate`
 ```json
 {
-  "crateId": "4B6623D0-EA47-4999-A584-53F797578091"
+  "crateId": "1b78a51e-10f7-4ec6-970a-a37d9698d048"
 }
 ```
-
+![img_23.png](img_23.png)
 - Закрываем груз:
 - `POST /api/Cargo/{id}/close`
+- ![img_24.png](img_24.png)
 
 - Отправляем груз на отгрузку:
 - `POST /api/Shipping/cargo/{cargoId}`
+- ![img_25.png](img_25.png)
 
 ### Термины
 - **Экземпляр** (**Instance**) - отдельная единица товара в отправлении (постинге)
